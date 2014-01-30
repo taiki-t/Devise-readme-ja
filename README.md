@@ -327,7 +327,11 @@ sign_out @user         # sign_out(resource)
 ```
 
 ２つほど、覚えておく大事なことがあります。
-There are two things that is important to keep in mind:
+
+1. これらのヘルパーはCapybaraやWebratによって駆動される統合テストでは動作しません。機能テストのみでの使用を意図したものです。代わりに、セッションを使用して明示的にユーザを設定するか、フォームの記入をしてください。
+
+2.  
+
 
 1. These helpers are not going to work for integration tests driven by Capybara or Webrat. They are meant to be used with functional tests only. Instead, fill in the form or explicitly set the user in session;
 
