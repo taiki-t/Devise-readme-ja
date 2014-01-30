@@ -295,8 +295,9 @@ en:
 
 https://github.com/plataformatec/devise/wiki/I18n
 
-### Test helpers
+### テストヘルパー
 
+Deviseは機能仕様のためにいくつかテストヘルパーを備えています。それらを使うためには、 `test/test_helper.rb`ファイルの一番下に、次のコードを追加することによって機能テスト内にDeviseをインクルードする必要があります。
 Devise includes some test helpers for functional specs. In order to use them, you need to include Devise in your functional tests by adding the following to the bottom of your `test/test_helper.rb` file:
 
 ```ruby
@@ -305,7 +306,7 @@ class ActionController::TestCase
 end
 ```
 
-If you're using RSpec, you can put the following inside a file named `spec/support/devise.rb`:
+RSpecを使用している場合は、次のコードを`spec/support/devise.rb` ファイル内におくことができます。:
 
 ```ruby
 RSpec.configure do |config|
@@ -313,6 +314,8 @@ RSpec.configure do |config|
 end
 ```
 
+これで`sign_in` と `sign_out`　メソッドを使う用意ができました。
+そのようなメソッドはコントローラ内で使う場合と同様の特徴を持ちます。
 Now you are ready to use the `sign_in` and `sign_out` methods. Such methods have the same signature as in controllers:
 
 ```ruby
@@ -323,6 +326,7 @@ sign_out :user         # sign_out(scope)
 sign_out @user         # sign_out(resource)
 ```
 
+２つほど、覚えておく大事なことがあります。
 There are two things that is important to keep in mind:
 
 1. These helpers are not going to work for integration tests driven by Capybara or Webrat. They are meant to be used with functional tests only. Instead, fill in the form or explicitly set the user in session;
