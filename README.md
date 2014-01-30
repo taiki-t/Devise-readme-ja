@@ -199,7 +199,7 @@ Deviseはエンジンなので、すべてのビューはgem内に収まって�
 ```console
 rails generate devise:views
 ```
-もし一つ以上のDeviseのモデルがあるとき（"User" や "Admin" 等）、Deviseはすべてのモデルに同じビューを使用していることに気付くでしょう。幸いにも、Deviseでは簡単な方法でビューをカスタマイズすることができます。 "config/initializers/devise.rb"内
+もし一つ以上のDeviseのモデルがあるとき（"User" や "Admin" 等）、Devisがすべてのモデルに同じビューを使用していることに気付くでしょう。幸いにも、Deviseでは簡単な方法でビューをカスタマイズすることができます。 "config/initializers/devise.rb"内
 で"config.scoped_views = true" を設定するだけで良いのです。
 
 設定し終えると、"users/sessions/new" や "admins/sessions/new"といった役割に基づいたビューを持つことができます。
@@ -230,7 +230,7 @@ rails generate devise:views users
 
 3. そして、コントローラを変更したので、`"devise/sessions"` ビューは使われません。なので、忘れずに `"devise/sessions"` を `"admins/sessions"`にコピーして下さい。
 
-    留意して欲しいのは、Deviseはフラッシュメッセージを使用してユーザのサインインが成功したか失敗したか伝えるということです。Deviseはアプリケーションが`"flash[:notice]"` と `"flash[:alert]"`を呼び出すことを前提としています。フラッシュの全体のハッシュを表示することはしないで下さい。特定のキーのみ表示するようにし、少なくとも`:timedout`キーをハッシュから取り除いて下さい。Deviseはこのキーを幾つかの状況でで追加しますが、このキーは表示されることを意図していません。
+    留意して欲しいのは、Deviseはフラッシュメッセージを使用してユーザのサインインが成功したか失敗したか伝えるということです。Deviseはアプリケーションが`"flash[:notice]"` と `"flash[:alert]"`を呼び出すことを前提としています。フラッシュの全体のハッシュは表示しないで下さい。特定のキーのみ表示するようにし、少なくとも`:timedout`キーをハッシュから取り除いて下さい。Deviseはこのキーを幾つかの状況でで追加しますが、このキーが表示されることは意図されていません。
 
 ### ルートの設定
 
@@ -255,11 +255,12 @@ end
 
 この方法で"/sign_in" にアクセスされたとき、deviseに :user スコープを使用するように指示できます。
 ルータ内で、`devise_scope`には`as`というエイリアスがあることに注意して下さい。  
-[http://rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper:devise_scope:title]
+
+http://rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper:devise_scope
 
 ### I18n
 
-Devise uses flash messages with I18n with the flash keys :notice and :alert. To customize your app, you can set up your locale file:
+DeviseはフラッシュメッセージにI18nを使用していて、フラッシュキーは :notice と :alert です。アプリケーションをカスタマイズするために、独自のロケールファイルを設定することができます。：
 
 ```yaml
 en:
@@ -267,8 +268,7 @@ en:
     sessions:
       signed_in: 'Signed in successfully.'
 ```
-
-You can also create distinct messages based on the resource you've configured using the singular name given in routes:
+また、ルートで定義された単数形の名前を使用して設定したリソースに基づいて個別のメッセージを作成することもできます。
 
 ```yaml
 en:
@@ -279,8 +279,7 @@ en:
       admin:
         signed_in: 'Hello admin!'
 ```
-
-The Devise mailer uses a similar pattern to create subject messages:
+Devise mailer はサブジェクトメッセージを作成するために似たようなパターンを使います。：
 
 ```yaml
 en:
@@ -292,8 +291,7 @@ en:
       reset_password_instructions:
         subject: 'Reset instructions'
 ```
-
-Take a look at our locale file to check all available messages. You may also be interested in one of the many translations that are available on our wiki:
+利用可能なメッセージを確認するために、Deviseのローカルファイルを参照してください。wikiにある多くの翻訳も参照するとよいでしょう。
 
 https://github.com/plataformatec/devise/wiki/I18n
 
