@@ -53,7 +53,6 @@ DeviseをGemfileに追加し、インストールした後に、ジェネレー�
 rails generate devise:install
 ```
 
-The generator will install an initializer which describes ALL Devise's configuration options and you MUST take a look at it. When you are done, you are ready to add Devise to any of your models using the generator:
 ジェネレータはイニシャライザをインストールします。イニシャライザにはDeviseの全ての設定オプションが記載されているので、__必ず__見て下さい。完了後、ジェネレータを使用して好きなモデルにDeviseをインストールします。
 
 ```console
@@ -63,33 +62,25 @@ rails generate devise MODEL
  MODEL を、アプリケーションのユーザに使われているクラス名に置き換えてください。大方の場合`User`ですが、`Admin`の場合もあるでしょう。これによってモデルが（存在しなければ）作成され、デフォルトのDeviseのモジュールが設定されます。
 ORMが対応している場合、ジェネレータはマイグレーションファイルも作成するので、次は、通常 `rake db:migrate`を実行します。また、このジェネレータはconfig/routes/rbファイルの設定も行い、Deviseコントローラを指し示すようにします。
 
-Replace MODEL by the class name used for the applications users, it's frequently `User` but could also be `Admin`. This will create a model (if one does not exist) and configure it with default Devise modules. Next, you'll usually run `rake db:migrate` as the generator will have created a migration file (if your ORM supports them). This generator also configures your config/routes.rb file to point to the Devise controller.
-
 ここで、アプリケーションを再起動する必要があることに注意してください。再起動をしないと、ログインができなかったり、ルートヘルパーが定義されていないなどのエラーが発生します。
 
-Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors like users being unable to login and the route helpers being undefined.
-
 ### コントローラフィルタとヘルパー
-Deviseはコントローラとビューで使用されるヘルパーをいくつか作成します。ユーザの認証をコントローラに設定するには、次の before_filterを加えるだけで大丈夫です。
-Devise will create some helpers to use inside your controllers and views. To set up a controller with user authentication, just add this before_filter:
+Deviseはコントローラとビューで使用されるヘルパーをいくつか作成します。ユーザの認証をコントローラに設定するには、次の before_filterを加えるだけで大丈夫です。:
 
 ```ruby
 before_filter :authenticate_user!
 ```
-ユーザがサインインしているか確認するためには、次のヘルパーを使用してください。
-To verify if a user is signed in, use the following helper:
+ユーザがサインインしているか確認するためには、次のヘルパーを使用してください。:
 
 ```ruby
 user_signed_in?
 ```
-現在サインインしているユーザには、次のヘルパーが使えます。
-For the current signed-in user, this helper is available:
+現在サインインしているユーザには、次のヘルパーが使えます。:
 
 ```ruby
 current_user
 ```
-次のスコープでセッションにアクセスできます。
-You can access the session for this scope:
+次のスコープでセッションにアクセスできます。:
 
 ```ruby
 user_session
@@ -97,21 +88,17 @@ user_session
 ユーザがサインインした後や、アカウントの確認またはパスワードの確認後、Deviseはリダイレクトの為にスコープされたルートパスを探しにいきます。
 例：:userリソースの場合、`user_root_path`が存在するときはそれを使い、ない場合はデフォルトの`root_path`が使われます。これは、ルートを定義する必要あることを意味します：
 
-After signing in a user, confirming the account or updating the password, Devise will look for a scoped root path to redirect. Example: For a :user resource, it will use `user_root_path` if it exists, otherwise default `root_path` will be used. This means that you need to set the root inside your routes:
-
 ```ruby
 root to: "home#index"
 ```
-また、リダイレクトフックをカスタマイズするには、`after_sign_in_path_for` や`after_sign_out_path_for`を上書きします。
-You can also overwrite `after_sign_in_path_for` and `after_sign_out_path_for` to customize your redirect hooks.
-最後に、それぞれの環境におけるメーラーのデフォルトurlオプションを設定する必要があります。"config/environments/development.rb"のための設定は次のようになります:
-Finally, you need to set up default url options for the mailer in each environment. Here is the configuration for "config/environments/development.rb":
+また、リダイレクトフックをカスタマイズするには、`after_sign_in_path_for` や`after_sign_out_path_for`を上書きます。  
+
+最後に、それぞれの環境におけるメーラーのデフォルトurlオプションを設定する必要があります。"config/environments/development.rb"のための設定は次のようになります:  
 
 ```ruby
 config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 ```
 もしdeviseモデル名に "user" ではなく "member" を使用している場合、ヘルパーは次のようにする必要があることに注意してください：
-Notice that if your devise model is not called "user" but "member", then the helpers you should use are:
 
 ```ruby
 before_filter :authenticate_member!
@@ -127,7 +114,6 @@ member_session
 
 モデル内のdeviseメソッドは、モデルのモジュールを設定するためにいくつかのオプションを受け取ります。
 例えば、暗号化アルゴリズムのコストは次のように設定します：
-The devise method in your models also accepts some options to configure its modules. For example, you can choose the cost of the encryption algorithm with:
 
 ```ruby
 devise :database_authenticatable, :registerable, :confirmable, :recoverable, :stretches => 20
@@ -135,17 +121,13 @@ devise :database_authenticatable, :registerable, :confirmable, :recoverable, :st
 :stretchesの他に、 :pepper, :encryptor, :confirm_within, :remember_for, :timeout_in, :unlock_in に加え、他の値も定義することができます。
 詳細は、`devise:install`を実行したときに作成されるinitializerファイルを参照してください。
 
-Besides :stretches, you can define :pepper, :encryptor, :confirm_within, :remember_for, :timeout_in, :unlock_in and other values. For details, see the initializer file that was created when you invoked the "devise:install" generator described above.
 
 ### ストロングパラメータ
 ビューをカスタマイズするとき、フォームに新しい属性を追加することがあるとおもいます。Rails 4 はパラメータのサニタイズをモデルからコントローラに移したので、
 Deviseでも同様にこの問題をコントローラで処理することになりました。
-When you customize your own views, you may end up adding new attributes to forms. Rails 4 moved the parameter sanitization from the model to the controller, causing Devise to handle this concern at the controller as well.
-
 
 Deviseには、パラメータの任意のセットをモデルにまで引き渡すことができる（したがってサニタイズが必要な）アクションは3つしかありません。
 それらのアクション名とデフォルトで許可されるパラメータを次に挙げます：
-There are just three actions in Devise that allows any set of parameters to be passed down to the model, therefore requiring sanitization. Their names and the permitted parameters by default are:
 
 | アクション | 説明 |  
 | ---------- | --- |  
@@ -154,7 +136,8 @@ There are just three actions in Devise that allows any set of parameters to be p
 | `account_update` (`Devise::RegistrationsController#update`) | 認証キーに加え、 `password`, `password_confirmation` , `current_password`を許容します。 |  
 
 追加のパラメータを（遅延評価で）許容したい場合は、`ApplicationController`内に簡単なフィルターを加えることで可能になります。
-In case you want to permit additional parameters (the lazy way™) you can do with a simple before filter in your `ApplicationController`:
+
+ `ApplicationController`:
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -169,7 +152,6 @@ end
 ```
 
 Deviseのデフォルトを完全に変更したり、カスタムした振舞を呼び出したい場合は、ブロックを渡すこともできます。
-To completely change Devise defaults or invoke custom behaviour, you can also pass a block:
 
 ```ruby
 def configure_permitted_parameters
@@ -177,8 +159,7 @@ def configure_permitted_parameters
 end
 ```
 複数のDeviseモデルがあり、それぞれのモデルについて異なるパラメータサニタイザを設定したい場合について書きます。
-この場合、`Devise::ParameterSanitizer` から継承し、自分のロジックを追加することをお勧めします
-If you have multiple Devise models, you may want to set up different parameter sanitizer per model. In this case, we recommend inheriting from `Devise::ParameterSanitizer` and add your own logic:
+この場合、`Devise::ParameterSanitizer` から継承し、自分のロジックを追加することをお勧めします：
 
 ```ruby
 class User::ParameterSanitizer < Devise::ParameterSanitizer
@@ -188,7 +169,6 @@ class User::ParameterSanitizer < Devise::ParameterSanitizer
 end
 ```
 
-And then configure your controllers to use it:
 その後、それを使用できるようにコントローラを設定します。
 
 ```ruby
@@ -207,13 +187,8 @@ end
 
 上記の例では、ユーザが`:username` と `:email`のどちらでも大丈夫なように許可されたパラメータを上書きしています。遅延評価でない方法でパラメータを設定する場合は、上記の before filter をカスタムコントローラに定義することになるでしょう。
 コントローラをカスタマイズし、設定する方法の詳細は今後紹介します。
-The example above overrides the permitted parameters for the user to be both `:username` and `:email`. The non-lazy way to configure parameters would be by defining the before filter above in a custom controller. We detail how to configure and customize controllers in some sections below.
 
 ### ビューの設定
-
-We built Devise to help you quickly develop an application that uses authentication. However, we don't want to be in your way when you need to customize it.
-
-Since Devise is an engine, all its views are packaged inside the gem. These views will help you get started, but after some time you may want to change them. If this is the case, you just need to invoke the following generator, and it will copy all views to your application:
 
 認証機能をもつアプリケーションの素早い開発をサポートするためにDeviseは作成されましたが、
 カスタマイズをする場合には、Deviseの手順に従ってもらわなければなりません。  
@@ -227,22 +202,15 @@ rails generate devise:views
 もし一つ以上のDeviseのモデルがあるとき（"User" や "Admin" 等）、Deviseはすべてのモデルに同じビューを使用していることに気付くでしょう。幸いにも、Deviseでは簡単な方法でビューをカスタマイズすることができます。 "config/initializers/devise.rb"内
 で"config.scoped_views = true" を設定するだけで良いのです。
 
-If you have more than one Devise model in your application (such as "User" and "Admin"), you will notice that Devise uses the same views for all models. Fortunately, Devise offers an easy way to customize views. All you need to do is set "config.scoped_views = true" inside "config/initializers/devise.rb".
-
 設定し終えると、"users/sessions/new" や "admins/sessions/new"といった役割に基づいたビューを持つことができます。
 スコープ内にビューが見つからない場合は、Deviseは"devise/sessions/new"にあるデフォルトのビューを使用します。
 スコープされたビューを生成するために、ジェネレータを使用することも出来ます。
-
-
-After doing so, you will be able to have views based on the role like "users/sessions/new" and "admins/sessions/new". If no view is found within the scope, Devise will use the default view at "devise/sessions/new". You can also use the generator to generate scoped views:
 
 ```console
 rails generate devise:views users
 ```
 
 ### コントローラの設定
-
-If the customization at the views level is not enough, you can customize each controller by following these steps:
 
 ビューレベルでのカスタマイズでは十分でない場合、次の手順に従ってそれぞれのコントローラをカスタマイズすることができます。
 
@@ -253,7 +221,6 @@ If the customization at the views level is not enough, you can customize each co
     end
     ```
     上記の例の場合、コントローラは`app/controller/admins/` ディレクトリ内に作成される必要があることに注意して下さい
-    Note that in the above example, the controller needs to be created in the `app/controller/admins/` directory.
 
 2. ルータにこのコントローラを使うよう指示します。
 
@@ -270,8 +237,6 @@ If the customization at the views level is not enough, you can customize each co
 Deviseはデフォルトのルートが設定された状態でインストールされます。それらをカスタマイズしたい場合は、
 大方 devise_for メソッドを通して行えるでしょう。そのメソッドは :class_name, :path_prefix、といったようないくつかのオプションを受け取ります。I18nのためのパス名の変更も含みます。：
 
-Devise also ships with default routes. If you need to customize them, you should probably be able to do it through the devise_for method. It accepts several options like :class_name, :path_prefix and so on, including the possibility to change path names for I18n:
-
 ```ruby
 devise_for :users, :path => "auth", :path_names => { :sign_in => 'login', :sign_out => 'logout', :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 ```
@@ -281,7 +246,6 @@ Be sure to check `devise_for` documentation for details.
 
 より深いカスタマイズが必要な場合、例えば "/users/sign_in"の他に"/sign_in" を許可したい場合、
 やるべきことは、ルータ内で通常通りルートを定義して、`devise_scope` でラップすることだけです。
-If you have the need for more deep customization, for instance to also allow "/sign_in" besides "/users/sign_in", all you need to do is to create your routes normally and wrap them in a `devise_scope` block in the router:
 
 ```ruby
 devise_scope :user do
