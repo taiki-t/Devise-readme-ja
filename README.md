@@ -10,6 +10,7 @@ Devise を使いたいので、勉強のためにとりあえずREADMEを訳し�
 <li>[http://easyramble.com/devise-on-rails.html:title]</li>
 <li>[http://babie.hatenablog.com/entry/20100729/1280381392:title]</li>
 <ul>
+オリジナル https://github.com/plataformatec/devise  
 </div>
 -----
 
@@ -375,7 +376,7 @@ admin_session
 
 もしくは、単にDeviseジェネレータを実行しても良いです。
 
-覚えておいて欲しいのは、それらのモデルは完全に異なるルートを持つということです。それらはサインイン、サインアウトや、その他の動作のために同じコントローラを共有**しない**し、**できません**。もし異なる役割に同じアクションを共有させたい場合、role columnを用意したり、もしくは[CanCan](https://github.com/ryanb/cancan)を使い、役割に基づいたアプローチをとることをおすすめします。
+覚えておいて欲しいのは、それらのモデルは完全に異なるルートを持つということです。それらはサインイン、サインアウトや、その他の動作のために同じコントローラを共有**しません**し、**できません**。もし異なる役割に同じアクションを共有させたい場合、role columnを用意したり、もしくは[CanCan](https://github.com/ryanb/cancan)を使い、役割に基づいたアプローチをとることをおすすめします。
 
 ### 他の ORMs
 
