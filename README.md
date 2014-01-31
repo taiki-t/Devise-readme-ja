@@ -297,8 +297,8 @@ https://github.com/plataformatec/devise/wiki/I18n
 
 ### テストヘルパー
 
-Deviseは機能仕様のためにいくつかテストヘルパーを備えています。それらを使うためには、 `test/test_helper.rb`ファイルの一番下に、次のコードを追加することによって機能テスト内にDeviseをインクルードする必要があります。
-Devise includes some test helpers for functional specs. In order to use them, you need to include Devise in your functional tests by adding the following to the bottom of your `test/test_helper.rb` file:
+Deviseは機能仕様のためにいくつかテストヘルパーを備えています。それらを使うためには、機能テスト内にDeviseをインクルードする必要があります。
+次のコードを `test/test_helper.rb`ファイルの一番下に追加してください。
 
 ```ruby
 class ActionController::TestCase
@@ -316,7 +316,6 @@ end
 
 これで`sign_in` と `sign_out`　メソッドを使う用意ができました。
 そのようなメソッドはコントローラ内で使う場合と同様の特徴を持ちます。
-Now you are ready to use the `sign_in` and `sign_out` methods. Such methods have the same signature as in controllers:
 
 ```ruby
 sign_in :user, @user   # sign_in(scope, resource)
@@ -338,50 +337,49 @@ sign_out @user         # sign_out(resource)
 
 ### Omniauth
 
-Devise comes with Omniauth support out of the box to authenticate with other providers. To use it, just specify your omniauth configuration in `config/initializers/devise.rb`:
-
+Devise はそのままでOmniauthをサポートしており、他のプロバイダを使って認証するために使えます。`config/initializers/devise.rb` にOmniauthの設定を指定するだけで使えます。：
 ```ruby
 config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 ```
 
-You can read more about Omniauth support in the wiki:
+Omniauth サポートについての詳細はwikiを参照してください：
 
 * https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview
 
-### Configuring multiple models
+### 複数モデルの設定
 
-Devise allows you to set up as many Devise models as you want. If you want to have an Admin model with just authentication and timeout features, in addition to the User model above, just run:
+Deviseでは好きなだけDeviseモデルを設定することができます。上記のUserモデルに加え、認証とタイムアウト機能だけをもつAdminモデルを設定したい場合、次のように実行してください。：
 
 ```ruby
-# Create a migration with the required fields
+# 必要なフィールドのマイグレーションを作成する。
 create_table :admins do |t|
   t.string :email
   t.string :encrypted_password
   t.timestamps
 end
 
-# Inside your Admin model
+# Admin モデル内
 devise :database_authenticatable, :timeoutable
 
-# Inside your routes
+# ルートファイル内
 devise_for :admins
 
-# Inside your protected controller
+# 保護された（protected）コントローラ内
 before_filter :authenticate_admin!
 
-# Inside your controllers and views
+# コントローラとビュー内
 admin_signed_in?
 current_admin
 admin_session
 ```
 
-Alternatively, you can simply run the Devise generator.
+もしくは、単にDeviseジェネレータを実行しても良いです。
 
-Keep in mind that those models will have completely different routes. They **do not** and **cannot** share the same controller for sign in, sign out and so on. In case you want to have different roles sharing the same actions, we recommend you to use a role-based approach, by either providing a role column or using [CanCan](https://github.com/ryanb/cancan).
+覚えておいて欲しいのは、それらのモデルは完全に異なるルートを持つということです。それらはサインイン、サインアウトや、その他の動作のために同じコントローラを共有**しない**し、**できません**。もし異なる役割に同じアクションを共有させたい場合、role columnを用意したり、もしくは[CanCan](https://github.com/ryanb/cancan)を使い、役割に基づいたアプローチをとることをおすすめします。
 
-### Other ORMs
+### 他の ORMs
 
-Devise supports ActiveRecord (default) and Mongoid. To choose other ORM, you just need to require it in the initializer file.
+Devise はActiveRecord (デフォルト) と Mongoid をサポートします。使用するORMを選択するためには、イニシャライザファイル内でrequireしてください。
 
 ## Additional information
 
