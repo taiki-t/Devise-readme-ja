@@ -199,7 +199,7 @@ Deviseはエンジンなので、すべてのビューはgem内に収まって�
 ```console
 rails generate devise:views
 ```
-もし一つ以上のDeviseのモデルがあるとき（"User" や "Admin" 等）、Devisがすべてのモデルに同じビューを使用していることに気付くでしょう。幸いにも、Deviseでは簡単な方法でビューをカスタマイズすることができます。 "config/initializers/devise.rb"内
+もし一つ以上のDeviseのモデルがあるとき（"User" や "Admin" 等）、Deviseがすべてのモデルに同じビューを使用していることに気付くでしょう。幸いにも、Deviseでは簡単な方法でビューをカスタマイズすることができます。 "config/initializers/devise.rb"内
 で"config.scoped_views = true" を設定するだけで良いのです。
 
 設定し終えると、"users/sessions/new" や "admins/sessions/new"といった役割に基づいたビューを持つことができます。
@@ -230,7 +230,7 @@ rails generate devise:views users
 
 3. そして、コントローラを変更したので、`"devise/sessions"` ビューは使われません。なので、忘れずに `"devise/sessions"` を `"admins/sessions"`にコピーして下さい。
 
-    留意して欲しいのは、Deviseはフラッシュメッセージを使用してユーザのサインインが成功したか失敗したか伝えるということです。Deviseはアプリケーションが`"flash[:notice]"` と `"flash[:alert]"`を呼び出すことを前提としています。フラッシュの全体のハッシュは表示しないで下さい。特定のキーのみ表示するようにし、少なくとも`:timedout`キーをハッシュから取り除いて下さい。Deviseはこのキーを幾つかの状況でで追加しますが、このキーが表示されることは意図されていません。
+    留意して欲しいのは、Deviseはフラッシュメッセージを使用してユーザのサインインが成功したか失敗したか伝えるということです。Deviseはアプリケーションが`"flash[:notice]"` と `"flash[:alert]"`を呼び出すことを前提としています。フラッシュの全体のハッシュは表示しないで下さい。特定のキーのみ表示するようにし、少なくとも`:timedout`キーをハッシュから取り除いて下さい。Deviseは`:timedout`キーを幾つかの状況で追加しますが、このキーが表示されることは意図されていません。
 
 ### ルートの設定
 
