@@ -7,12 +7,14 @@ Devise を使いたいので、勉強のためにとりあえずREADMEを訳し�
 すでにいくつも日本語訳や解説が存在します。
 こちらの記事もご覧ください。
 <ul>
-<li>[http://easyramble.com/devise-on-rails.html:title]</li>
-<li>[http://babie.hatenablog.com/entry/20100729/1280381392:title]</li>
-<ul>
+  <li>http://easyramble.com/devise-on-rails.html</li>
+  <li>http://babie.hatenablog.com/entry/20100729/1280381392</li>
+<ul>  
+<br>
 オリジナル https://github.com/plataformatec/devise  
 </div>
 -----
+Devise は Wardenを基にした、Railsのための柔軟な認証ソリューションです。
 
 * Rackベース
 * Railsエンジンに基づいた完全な MVC のシステム
